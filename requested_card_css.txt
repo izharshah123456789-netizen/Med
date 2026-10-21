@@ -1,0 +1,78 @@
+﻿  /* Fixed Card Container Layout */
+  .medora-workflow-card {
+    position: relative !important;
+    flex: 1 1 0% !important;
+    min-width: 0 !important;
+    border-top-left-radius: 1.5rem !important;
+    border-bottom-right-radius: 1.5rem !important;
+    border-top-right-radius: 0.75rem !important;
+    border-bottom-left-radius: 0.75rem !important;
+    background: #FFFFFF !important;
+    border: 1px solid #E2E8F0 !important;
+    padding: 1.25rem !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    transition: background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease !important;
+    cursor: pointer !important;
+    overflow: hidden !important;
+  }
+
+  /* Top-Left Corner Accent Overlay (Zero Dimension Shift) */
+  .medora-workflow-card::before {
+    content: '' !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    border-top-left-radius: 1.5rem !important;
+    border-top-right-radius: 0.75rem !important;
+    border-bottom-left-radius: 0.75rem !important;
+    border-top: 3px solid transparent !important;
+    border-left: 3px solid transparent !important;
+    pointer-events: none !important;
+    transition: border-color 0.35s ease !important;
+    mask-image: linear-gradient(135deg, #000 0%, #000 30%, transparent 65%) !important;
+    -webkit-mask-image: linear-gradient(135deg, #000 0%, #000 30%, transparent 65%) !important;
+  }
+
+  /* Active & Hover Card Styling */
+  .medora-workflow-card:hover,
+  .medora-workflow-card.is-active-step {
+    background: linear-gradient(180deg, #F4F9F6 0%, #EBF4F0 100%) !important;
+    border-color: rgba(34, 110, 75, 0.25) !important;
+    box-shadow: 0 10px 25px -5px rgba(34, 110, 75, 0.12) !important;
+  }
+
+  /* Reveal Green Line on Top-Left Corner */
+  .medora-workflow-card:hover::before,
+  .medora-workflow-card.is-active-step::before {
+    border-top-color: #226E4B !important;
+    border-left-color: #226E4B !important;
+  }
+
+  /* Animated Top Connecting Accent Bar */
+  .medora-card-line-accent {
+    position: absolute !important;
+    top: 1.75rem !important;
+    left: 3.5rem !important;
+    right: 3.5rem !important;
+    height: 2px !important;
+    background: rgba(34, 110, 75, 0.15) !important;
+    z-index: 1 !important;
+    transition: background 0.35s ease !important;
+  }
+
+  .medora-workflow-card:hover .medora-card-line-accent,
+  .medora-workflow-card.is-active-step .medora-card-line-accent {
+    background: #226E4B !important;
+  }
+
+  /* Text Hardware-Acceleration & Single-Line Lock */
+  .medora-workflow-card h3 {
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    max-width: 100% !important;
+  }

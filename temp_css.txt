@@ -1,0 +1,104 @@
+﻿.medora-workflow-card {
+    flex: 1 1 0% !important;
+    min-width: 0 !important;
+    position: relative !important;
+    border-top-left-radius: 1.5rem !important;
+    border-bottom-right-radius: 1.5rem !important;
+    border-top-right-radius: 0.75rem !important;
+    border-bottom-left-radius: 0.75rem !important;
+    background-color: #FFFFFF !important;
+    border: 1px solid #E2E8F0 !important;
+    padding: 1.25rem !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease !important;
+    box-sizing: border-box !important;
+    transform: none !important; /* Prevents text scaling distortion */
+    cursor: pointer !important;
+  }
+
+  /* Top-Left Accent Pseudo-Element (Zero Layout Impact) */
+  .medora-workflow-card::before {
+    content: '' !important;
+    position: absolute !important;
+    top: -1px !important;
+    left: -1px !important;
+    right: -1px !important;
+    bottom: -1px !important;
+    border-top-left-radius: 1.5rem !important;
+    border-top-right-radius: 0.75rem !important;
+    border-bottom-left-radius: 0.75rem !important;
+    border-top: 3px solid transparent !important;
+    border-left: 3px solid transparent !important;
+    pointer-events: none !important;
+    transition: border-color 0.3s ease !important;
+  }
+
+  /* Hover & Active Highlight: Animates Border Line & Mint Tint ONLY */
+  .medora-workflow-card:hover,
+  .medora-workflow-card.is-active-step {
+    background: linear-gradient(180deg, #F4F9F6 0%, #EBF4F0 100%) !important;
+    border-color: rgba(34, 110, 75, 0.25) !important;
+    box-shadow: 0 8px 20px -4px rgba(34, 110, 75, 0.12) !important;
+  }
+
+  /* Reveal Green Line on Top & Left Edges on Hover */
+  .medora-workflow-card:hover::before,
+  .medora-workflow-card.is-active-step::before {
+    border-top-color: #226E4B !important;
+    border-left-color: #226E4B !important;
+  }
+
+  /* Title Text Single Line Lock */
+  .medora-workflow-card h3 {
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    max-width: 100% !important;
+  }
+
+  .medora-arrow-divider { display: flex !important; align-items: center !important; justify-content: center !important; flex-shrink: 0 !important; width: 2rem !important; height: 2rem !important; border-radius: 9999px !important; background-color: #E2F0E8 !important; color: #226E4B !important; align-self: center !important; }
+</style>
+</head>
+
+  <body>
+<nav id="main-navbar" class="fixed top-0 left-0 w-full z-[9999] transition-all duration-300">
+  <div class="max-w-7xl mx-auto px-6 sm:px-12 h-14 flex items-center justify-between w-full">
+    <!-- Brand Logo (Far Left) -->
+    <a href="#" id="nav-logo-text" class="text-xl font-extrabold tracking-tight text-[#226E4B] shrink-0">
+      Medora
+    </a>
+
+    <!-- Navigation Links (Far Right with Clean Spacing) -->
+    <div class="hidden md:flex items-center gap-7 font-semibold text-xs tracking-wide">
+      <a href="#about" class="nav-custom-link text-slate-800 hover:text-[#226E4B] transition-colors">About</a>
+      <a href="#features" class="nav-custom-link text-slate-800 hover:text-[#226E4B] transition-colors">Features</a>
+      <a href="#metrics" class="nav-custom-link text-slate-800 hover:text-[#226E4B] transition-colors">ROI & Metrics</a>
+      <a href="#pricing" class="nav-custom-link text-slate-800 hover:text-[#226E4B] transition-colors">Pricing</a>
+    </div>
+  </div>
+</nav>
+
+  <section class="relative flex w-full flex-col md:flex-row overflow-hidden bg-white min-h-[90vh] md:min-h-screen pt-16 md:pt-0" data-navbar-theme="mint">
+    <!-- Left Column: Brand Header, Headline, CTA & Contact Telemetry Footer -->
+    <div class="w-full md:w-1/2 lg:w-3/5 p-8 md:p-12 lg:p-16 flex flex-col justify-between z-10">
+      <div class="space-y-6">
+        <div class="hero-fade-up delay-1 flex items-center gap-3">
+          <a href="#" class="text-xl font-extrabold tracking-tight text-[#226E4B] hover:text-[#1B5E3A] transition-colors">
+            Medora
+          </a>
+          <span class="text-xs font-bold tracking-wider uppercase text-[#226E4B]/60">
+            AUTONOMOUS AI-POWERED CLINIC PLATFORM
+          </span>
+        </div>
+        <div class="hero-fade-up delay-2">
+<h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-950 tracking-tight leading-normal mb-4">
+  Your Digital Practice, <br />
+  <span class="bg-gradient-to-r from-[#226E4B] via-[#10B981] to-[#0D9488] bg-clip-text text-transparent inline-block pb-2 pt-1">
+    Deployed & AI-Managed.
+  </span>
+</h1>
+          <div class="h-1 w-20 bg-[#226E4B] my-6"></div>
+          <p class="hero-fade-up delay-3 text-base sm:text-lg text-slate-700 font-medium max-w-xl leading-relaxed">
+            Instantly launch fully automated clinical websites deployed to Google Cloud. Let AI handle patient scheduling, pre

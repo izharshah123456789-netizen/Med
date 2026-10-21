@@ -1,0 +1,89 @@
+﻿<div class="medora-workflow-row">
+
+  <div class="medora-workflow-card is-active-step">
+    <div>
+      <div class="flex items-center justify-between mb-3">
+        <div class="w-9 h-9 rounded-xl bg-[#E2F0E8] text-[#226E4B] flex items-center justify-center">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><polyline points="16 11 18 13 22 9"></polyline></svg>
+        </div>
+        <span class="w-7 h-7 rounded-full bg-[#226E4B] text-white text-xs font-bold flex items-center justify-center shadow-sm">01</span>
+      </div>
+      <h3 class="text-sm font-extrabold text-slate-900 tracking-tight mb-2">Doctor Sign Up & Prompt</h3>
+      <p class="text-xs text-slate-600 font-medium leading-relaxed mb-4">Doctor signs up on Medora and inputs a simple prompt describing their medical practice and specialties.</p>
+    </div>
+    <div>
+      <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-[#E2F0E8] text-[#226E4B]">
+        <span class="w-1.5 h-1.5 rounded-full bg-[#226E4B]"></span> Fast Onboarding
+      </span>
+    </div>
+  </div>
+
+  <div class="medora-arrow-divider">
+    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+  </div>
+
+  <div class="medora-workflow-card">
+    <div>
+      <div class="flex items-center justify-between mb-3">
+        <div class="w-9 h-9 rounded-xl bg-[#E2F0E8] text-[#226E4B] flex items-center justify-center">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.375 2.625a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.375-9.375z"></path></svg>
+        </div>
+        <span class="w-7 h-7 rounded-full bg-[#226E4B] text-white text-xs font-bold flex items-center justify-center shadow-sm">02</span>
+      </div>
+      <h3 class="text-sm font-extrabold text-slate-900 tracking-tight mb-2">Instant Site Generation</h3>
+      <p class="text-xs text-slate-600 font-medium leading-relaxed mb-4">The AI engine instantly generates a full-featured, tailored medical website based on the doctor's prompt.</p>
+    </div>
+    <div>
+      <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-[#E2F0E8] text-[#226E4B]">
+        <span class="w-1.5 h-1.5 rounded-full bg-[#226E4B]"></span> 1-Click Generation
+      </span>
+    </div>
+  </div>
+
+  <div class="medora-arrow-divider">
+    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+  </div>
+
+  <div class="medora-workflow-card">
+    <div>
+      <div class="flex items-center justify-between mb-3">
+        <div class="w-9 h-9 rounded-xl bg-[#E2F0E8] text-[#226E4B] flex items-center justify-center">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1 4-10z"></path></svg>
+        </div>
+        <span class="w-7 h-7 rounded-full bg-[#226E4B] text-white text-xs font-bold flex items-center justify-center shadow-sm">03</span>
+      </div>
+      <h3 class="text-sm font-extrabold text-slate-900 tracking-tight mb-2">Live Web & Virtual Clinic</h3>
+      <p class="text-xs text-slate-600 font-medium leading-relaxed mb-4">The website goes live on Google, functioning simultaneously as an online practice and a virtual patient clinic.</p>
+    </div>
+    <div>
+      <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-[#E2F0E8] text-[#226E4B]">
+        <span class="w-1.5 h-1.5 rounded-full bg-[#226E4B]"></span> Deployed on Google
+      </span>
+    </div>
+  </div>
+
+  <div class="medora-arrow-divider">
+    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+  </div>
+
+  <div class="medora-workflow-card">
+    <div>
+      <div class="flex items-center justify-between mb-3">
+        <div class="w-9 h-9 rounded-xl bg-[#E2F0E8] text-[#226E4B] flex items-center justify-center">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="15" x2="23" y2="15"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="15" x2="4" y2="15"></line></svg>
+        </div>
+        <span class="w-7 h-7 rounded-full bg-[#226E4B] text-white text-xs font-bold flex items-center justify-center shadow-sm">04</span>
+      </div>
+      <h3 class="text-sm font-extrabold text-slate-900 tracking-tight mb-2">Autonomous AI Management</h3>
+      <p class="text-xs text-slate-600 font-medium leading-relaxed mb-4">The virtual clinic and site operations are managed 24/7 by AI, creating a fully automated patient workflow.</p>
+    </div>
+    <div>
+      <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-[#E2F0E8] text-[#226E4B]">
+        <span class="w-1.5 h-1.5 rounded-full bg-[#226E4B]"></span> 100% Automated
+      </span>
+    </div>
+  </div>
+
+</div>
+      </div>
+    

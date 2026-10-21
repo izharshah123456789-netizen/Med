@@ -93,7 +93,7 @@ const buildWavePath = (anchors: Anchor[]) => {
   return segments.join(" ");
 };
 
-export function HowItWorks({ id = "roi" }: { id?: string }) {
+export function HowItWorks({ id = "impact" }: { id?: string }) {
   const rowRef = useRef<HTMLDivElement | null>(null);
   const svgRef = useRef<SVGSVGElement | null>(null);
   const cardRefs = useRef<Array<HTMLDivElement | null>>([]);

@@ -15,11 +15,14 @@ export default function CoreFeatures() {
   return (
     <section id="features" className="w-full bg-[#EBF4F0] py-20">
       <div className="text-center mb-10 px-4">
-        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight mb-3">
+        <span className="inline-flex items-center px-3.5 py-1 rounded-full text-xs font-semibold tracking-wider text-[#226E4B] bg-[#E2F0E8] border border-[#226E4B]/15 uppercase mb-3 select-none">
+          SYSTEM ARCHITECTURE
+        </span>
+        <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-slate-900 tracking-tight mb-3">
           MEDORA Core Features
         </h2>
         <p className="text-sm sm:text-base text-slate-600 font-medium">
-          Engineered for High Performance Clinics
+          Everything you need to automate your medical practice and doctor website.
         </p>
       </div>
       <div className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-2 lg:grid-cols-3 max-w-7xl mx-auto px-4">

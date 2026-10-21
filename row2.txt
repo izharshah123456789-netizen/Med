@@ -1,0 +1,13 @@
+﻿<div class="medora-workflow-row">
+
+  <div class="medora-workflow-card is-active-step">
+    <div>
+      <div class="flex items-center justify-between mb-3">
+        <div class="w-9 h-9 rounded-xl bg-[#E2F0E8] text-[#226E4B] flex items-center justify-center">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><polyline points="16 11 18 13 22 9"></polyline></svg>
+        </div>
+        <span class="w-7 h-7 rounded-full bg-[#226E4B] text-white text-xs font-bold flex items-center justify-center shadow-sm">01</span>
+      </div>
+      <h3 class="text-sm font-extrabold text-slate-900 tracking-tight mb-2">Doctor Sign Up & Prompt</h3>
+      <p class="text-xs text-slate-600 font-medium leading-relaxed mb-4">Doctor signs up on Medora and inputs a simple prompt describing their medical practice and specialties.</p>
+    </div>

@@ -1,0 +1,42 @@
+﻿/* Ensure card layout remains completely locked during hover */
+.workflow-step-card,
+[class*="transform-card"] {
+  position: relative !important;
+  box-sizing: border-box !important;
+  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease !important;
+}
+
+/* Pseudo-element to render styled top-left green accent without layout jitter */
+.workflow-step-card::before,
+[class*="transform-card"]::before {
+  content: '' !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  border-top-left-radius: 1.5rem !important;
+  border-top-right-radius: 0.75rem !important;
+  border-bottom-left-radius: 0.75rem !important;
+  border-top: 3.5px solid transparent !important;
+  border-left: 3.5px solid transparent !important;
+  pointer-events: none !important;
+  transition: border-color 0.3s ease !important;
+  mask-image: linear-gradient(135deg, #000 0%, #000 35%, transparent 70%) !important;
+  -webkit-mask-image: linear-gradient(135deg, #000 0%, #000 35%, transparent 70%) !important;
+}
+
+/* Active & Hover state: Reveal top-left forest green border line (#226E4B) */
+.workflow-step-card:hover,
+.workflow-step-card.is-active-step,
+[class*="transform-card"]:hover {
+  background: linear-gradient(180deg, #F4F9F6 0%, #EBF4F0 100%) !important;
+  box-shadow: 0 10px 25px -5px rgba(34, 110, 75, 0.15) !important;
+}
+
+.workflow-step-card:hover::before,
+.workflow-step-card.is-active-step::before,
+[class*="transform-card"]:hover::before {
+  border-top-color: #226E4B !important;
+  border-left-color: #226E4B !important;
+}

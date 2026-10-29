@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Manage your Medora patient workspace, appointments, and health records."
+    />
+    <title>Patient Workspace | Medora Healthcare</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      html,
+      body {
+        min-height: 100%;
+        margin: 0;
+        background: #f2f9f5;
+      }
+      #medora-patient-dashboard-root {
+        min-height: 100vh;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="medora-patient-dashboard-root"></div>
+    <script type="module" src="/mount-dashboard.tsx"></script>
+  </body>
+</html>

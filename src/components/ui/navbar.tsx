@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { HOME_ROUTE, SIGN_IN_ROUTE } from "../../lib/routes";
@@ -13,19 +13,55 @@ const navLinks = [
   { label: "Pricing", href: `${HOME_ROUTE}#pricing` },
 ];
 
+const themeText = {
+  light: "text-slate-900",
+  tinted: "text-emerald-950",
+  dark: "text-white",
+};
+
+const themeBg = {
+  light: "bg-white/90 border-slate-200/80 backdrop-blur-md",
+  tinted: "bg-[#f0fdf4]/90 border-emerald-200/60 backdrop-blur-md",
+  dark: "bg-emerald-950/90 border-emerald-800/50 backdrop-blur-md",
+};
+
 export function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [navTheme, setNavTheme] = useState<'light' | 'tinted' | 'dark'>('light');
+
+  useEffect(() => {
+    const sections = document.querySelectorAll('section[data-theme], footer[data-theme]');
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const theme = entry.target.getAttribute('data-theme') as 'light' | 'tinted' | 'dark';
+            if (theme) setNavTheme(theme);
+          }
+        });
+      },
+      {
+        rootMargin: '-10% 0px -85% 0px',
+        threshold: 0,
+      }
+    );
+
+    sections.forEach((sec) => observer.observe(sec));
+
+    return () => observer.disconnect();
+  }, []);
 
   const closeMenu = () => setMenuOpen(false);
 
   return (
-    <header className="medora-nav-header nav-mint-theme sticky top-0 z-50 transition-colors duration-200 ease-in-out">
+    <header className={`fixed top-0 left-0 right-0 z-50 border-b transition-colors duration-300 ease-in-out px-4 sm:px-6 lg:px-8 py-3.5 ${themeBg[navTheme]}`}>
       <nav id="main-navbar" className="w-full transition-all duration-300">
         <div className="relative max-w-7xl mx-auto px-4 sm:px-12 h-16 flex items-center justify-between w-full">
           <a
             href={HOME_ROUTE}
             id="nav-logo-text"
-            className="brand-text inline-flex items-center gap-2.5 text-xl font-extrabold tracking-tight text-[#226E4B] shrink-0 group"
+            className={`brand-text inline-flex items-center gap-2.5 text-xl font-extrabold tracking-tight shrink-0 group ${themeText[navTheme]}`}
           >
             <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-[#E2F0E8] border border-[#226E4B]/20 text-[#226E4B] transition-all duration-300 group-hover:bg-[#226E4B] group-hover:text-white group-hover:shadow-md group-hover:shadow-[#226E4B]/25">
               <svg
@@ -57,7 +93,7 @@ export function Navbar() {
               <a
                 key={link.label}
                 href={link.href}
-                className="nav-link relative text-slate-700 hover:text-[#226E4B] transition-colors duration-200 after:absolute after:-bottom-1 after:left-0 after:h-px after:w-0 after:bg-[#226E4B] after:transition-all after:duration-300 hover:after:w-full"
+                className={`nav-link relative ${themeText[navTheme]} hover:text-[#226E4B] transition-colors duration-200 after:absolute after:-bottom-1 after:left-0 after:h-px after:w-0 after:bg-[#226E4B] after:transition-all after:duration-300 hover:after:w-full`}
               >
                 {link.label}
               </a>
@@ -78,7 +114,7 @@ export function Navbar() {
             aria-expanded={menuOpen}
             aria-controls="mobileNavMenu"
             aria-label="Open navigation menu"
-            className="inline-flex md:hidden items-center justify-center rounded-xl border border-[#226E4B]/20 bg-white/70 p-2.5 text-[#226E4B] transition-colors duration-200 hover:bg-[#E2F0E8]"
+            className={`inline-flex md:hidden items-center justify-center rounded-xl border border-[#226E4B]/20 bg-white/70 p-2.5 ${themeText[navTheme]} transition-colors duration-200 hover:bg-[#E2F0E8]`}
           >
             {menuOpen ? (
               <X className="h-5 w-5" aria-hidden="true" />

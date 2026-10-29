@@ -8,13 +8,18 @@
     <script>
       (function () {
         var path = window.location.pathname.replace(/\/+$/, "");
-        if (path === "/signin") {
-          window.location.replace("/signin.html" + window.location.search + window.location.hash);
+        if (path === "/signin" || path === "/doctor/dashboard" || path === "/patient/dashboard") {
+          var documentPath = path === "/signin" ? "/signin.html" : path === "/doctor/dashboard" ? "/doctor-dashboard.html" : "/patient-dashboard.html";
+          window.location.replace(documentPath + window.location.search + window.location.hash);
         }
       })();
     </script>
   <style>
   /* Layout & Card Dimensions - Full Width Uncompressed Container */
+  #features {
+    background-color: #FFFFFF !important;
+  }
+
   .feature-cards-grid {
     display: grid !important;
     grid-template-columns: repeat(1, minmax(0, 1fr)) !important;
@@ -2166,7 +2171,7 @@ section[id], [id] { scroll-margin-top: 80px; }
 })();
 </script>
 
-    <section id="features" class="py-20 bg-[#E2EFE9]/30" data-navbar-theme="mint">
+    <section id="features" class="py-20 bg-white" data-navbar-theme="mint">
       <div class="max-w-7xl mx-auto px-6">
         <!-- Section Header -->
         <div class="text-center mb-14">

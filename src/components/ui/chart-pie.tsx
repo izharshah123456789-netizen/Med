@@ -1,24 +1,25 @@
 "use client";
 
-import { useMemo, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 
-const chartData = [
-  { name: "Consultations", value: 5200, color: "#226E4B" },
-  { name: "Treatments & Procedures", value: 3800, color: "#10B981" },
-  { name: "Diagnostics & Labs", value: 2100, color: "#059669" },
-  { name: "AI Telehealth Visits", value: 1350, color: "#0D9488" },
-];
+type RevenueMetric = {
+  name: string;
+  value: number;
+  color: string;
+};
 
-export function ChartPie() {
+export function ChartPie({
+  data,
+  total,
+}: {
+  data: RevenueMetric[];
+  total: string;
+}) {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
-  }, []);
-
-  const totalRevenue = useMemo(() => {
-    return chartData.reduce((acc, curr) => acc + curr.value, 0);
   }, []);
 
   if (!mounted) {
@@ -36,16 +37,16 @@ export function ChartPie() {
           <Pie
             cx="50%"
             cy="50%"
-            data={chartData}
+            data={data}
             dataKey="value"
-            innerRadius={60}
             nameKey="name"
+            innerRadius={60}
             outerRadius={90}
             paddingAngle={4}
             stroke="#ffffff"
             strokeWidth={2}
           >
-            {chartData.map((entry, index) => (
+            {data.map((entry, index) => (
               <Cell fill={entry.color} key={`cell-${index}`} />
             ))}
           </Pie>
@@ -54,7 +55,7 @@ export function ChartPie() {
 
       <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none text-center">
         <span className="text-2xl font-extrabold text-slate-900 tracking-tight">
-          ${totalRevenue.toLocaleString()}
+          {total}
         </span>
         <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">
           Total Sales

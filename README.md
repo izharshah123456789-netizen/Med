@@ -281,3 +281,37 @@ This project is licensed under the MIT License.
 ## Version
 
 1.0.0
+
+## Authentication and Staff Attendance
+
+The staff portal uses Supabase Phone OTP when Supabase is configured. Doctor and
+patient sign in use Supabase email or phone and password. Staff attendance is
+stored in Supabase and is visible to the assigned doctor. In development without
+Supabase configuration, the local demo credentials remain available and
+attendance is stored only in the current browser.
+
+The local demo uses OTP `1234` for the three test mobile numbers shown on the
+staff sign in screen. With Supabase configured, the app uses the SMS code
+configured by the Supabase project, which is six digits by default.
+
+### Supabase setup
+
+1. Copy `.env.example` to `.env.development.local` for local work and set
+   `VITE_SUPABASE_URL` and
+   `VITE_SUPABASE_ANON_KEY` from the Supabase project API settings. Never put a
+   service role key in the browser app. Set the same values in the production
+   hosting environment for deployed builds.
+2. Run `supabase/migrations/20261031000000_staff_attendance.sql` in the
+   Supabase SQL Editor.
+3. Enable Phone sign in and configure an SMS provider in the Supabase Auth
+   settings. Staff enter a 10 digit mobile number and the app sends it with the
+   India country code. Configure phone test numbers in Supabase Auth when
+   testing without SMS.
+4. Create each user in Supabase Auth. Add a matching row to
+   `public.profiles` with the same user ID and the correct role. Doctor rows
+   need the display name shown in the staff doctor selector.
+5. Add one `public.staff_doctor_assignments` row for each staff and doctor
+   pairing. A staff account can only record attendance for its assigned doctors.
+
+Patient and doctor account roles are `patient` and `doctor`. Staff accounts use
+the `reception` role. Doctor attendance access is enforced by row level security.

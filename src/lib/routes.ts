@@ -1,8 +1,12 @@
-export const HOME_ROUTE = "/";
+﻿export const HOME_ROUTE = "/";
 
 export const SIGN_IN_ROUTE = "/signin";
 
 export const SIGN_IN_DOCUMENT = "/signin.html";
+
+export const STAFF_LOGIN_ROUTE = "/staff-login";
+
+export const STAFF_LOGIN_DOCUMENT = "/staff-login.html";
 
 export const DOCTOR_DASHBOARD_ROUTE = "/doctor/dashboard";
 
@@ -24,9 +28,24 @@ export const DOCTOR_DASHBOARD_DOCUMENT = "/doctor-dashboard.html";
 
 export const PATIENT_DASHBOARD_ROUTE = "/patient/dashboard";
 
+export const PATIENT_DASHBOARD_DOCUMENT = "/patient-dashboard.html";
+
+export const RECEPTION_DASHBOARD_ROUTE = "/reception/dashboard";
+
+export const RECEPTION_DASHBOARD_DOCUMENT = "/reception-dashboard.html";
+
+export const OWNER_DASHBOARD_ROUTE = "/owner/dashboard";
+
+export const OWNER_DASHBOARD_DOCUMENT = "/owner-dashboard.html";
+
 export function isSignInPathname(pathname: string): boolean {
   const normalized = pathname.replace(/\/+$/, "") || "/";
   return normalized === SIGN_IN_ROUTE || normalized === SIGN_IN_DOCUMENT;
+}
+
+export function isStaffLoginPathname(pathname: string): boolean {
+  const normalized = pathname.replace(/\/+$/, "") || "/";
+  return normalized === STAFF_LOGIN_ROUTE || normalized === STAFF_LOGIN_DOCUMENT;
 }
 
 export function isDoctorDashboardPathname(pathname: string): boolean {
@@ -71,5 +90,15 @@ export function isDoctorTreatmentsPathname(pathname: string): boolean {
 
 export function isPatientDashboardPathname(pathname: string): boolean {
   const normalized = pathname.replace(/\/+$/, "") || "/";
-  return normalized === PATIENT_DASHBOARD_ROUTE;
+  return normalized === PATIENT_DASHBOARD_ROUTE || normalized === PATIENT_DASHBOARD_DOCUMENT;
+}
+
+export function isReceptionDashboardPathname(pathname: string): boolean {
+  const normalized = pathname.replace(/\/+$/, "") || "/";
+  return normalized === RECEPTION_DASHBOARD_ROUTE || normalized === RECEPTION_DASHBOARD_DOCUMENT;
+}
+
+export function isOwnerDashboardPathname(pathname: string): boolean {
+  const normalized = pathname.replace(/\/+$/, "") || "/";
+  return normalized === OWNER_DASHBOARD_ROUTE || normalized === OWNER_DASHBOARD_DOCUMENT;
 }

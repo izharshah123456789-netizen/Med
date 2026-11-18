@@ -6,21 +6,39 @@ import { ChartPie } from "../../../components/ui/chart-pie";
 import { CircleProgress } from "../../../components/ui/circle-progress";
 import { PatientGrowthChart } from "../../../components/ui/patient-growth-chart";
 
-const revenueData = [
-  { name: "Consultations", value: 5200, color: "#226E4B" },
-  { name: "Treatments and Procedures", value: 3800, color: "#10B981" },
-  { name: "Diagnostics and Labs", value: 2100, color: "#059669" },
-  { name: "AI Telehealth Visits", value: 1350, color: "#0D9488" },
+type RevenueMetric = {
+  name: string;
+  value: number;
+  color: string;
+  label: string;
+  percent: string;
+};
+
+const monthMetrics: RevenueMetric[] = [
+  { name: "Consultations", value: 5200, color: "#226E4B", label: "$5,200", percent: "41.8 percent" },
+  { name: "Treatments and Procedures", value: 3800, color: "#10B981", label: "$3,800", percent: "30.5 percent" },
+  { name: "Diagnostics and Labs", value: 2100, color: "#059669", label: "$2,100", percent: "16.9 percent" },
+  { name: "AI Telehealth Visits", value: 1350, color: "#0D9488", label: "$1,350", percent: "10.8 percent" },
 ];
 
-const totalRevenue = revenueData.reduce((sum, item) => sum + item.value, 0);
+const yearMetrics: RevenueMetric[] = [
+  { name: "Consultations", value: 62400, color: "#226E4B", label: "$62,400", percent: "42.0 percent" },
+  { name: "Treatments and Procedures", value: 45200, color: "#10B981", label: "$45,200", percent: "30.4 percent" },
+  { name: "Diagnostics and Labs", value: 25800, color: "#059669", label: "$25,800", percent: "17.4 percent" },
+  { name: "AI Telehealth Visits", value: 15200, color: "#0D9488", label: "$15,200", percent: "10.2 percent" },
+];
 
 export default function DoctorAnalyticsPage() {
   const [mounted, setMounted] = useState(false);
+  const [timeRange, setTimeRange] = useState<"month" | "year">("month");
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  const activeMetrics = timeRange === "month" ? monthMetrics : yearMetrics;
+  const subtitle = timeRange === "month" ? "Monthly breakdown by clinical service" : "Annual cumulative breakdown by clinical service";
+  const totalLabel = timeRange === "month" ? "$12,450" : "$148,600";
 
   if (!mounted) {
     return (
@@ -44,13 +62,15 @@ export default function DoctorAnalyticsPage() {
         <div className="flex gap-2 rounded-xl bg-slate-100 p-1">
           <button
             type="button"
-            className="rounded-lg bg-[#226E4B] px-3 py-1.5 text-xs font-semibold text-white shadow-sm"
+            onClick={() => setTimeRange("month")}
+            className={`rounded-lg px-3 py-1.5 text-xs font-semibold shadow-sm transition-all ${timeRange === "month" ? "bg-[#113F2A] text-white" : "text-slate-600 hover:text-slate-900 bg-transparent"}`}
           >
             This Month
           </button>
           <button
             type="button"
-            className="rounded-lg px-3 py-1.5 text-xs font-semibold text-slate-600 hover:text-slate-900"
+            onClick={() => setTimeRange("year")}
+            className={`rounded-lg px-3 py-1.5 text-xs font-semibold shadow-sm transition-all ${timeRange === "year" ? "bg-[#113F2A] text-white" : "text-slate-600 hover:text-slate-900 bg-transparent"}`}
           >
             This Year
           </button>
@@ -58,37 +78,36 @@ export default function DoctorAnalyticsPage() {
       </header>
 
       <section className="rounded-3xl border border-slate-200/80 bg-white p-4 lg:p-6 shadow-sm">
-        <div>
-          <h2 className="text-base sm:text-xl font-bold text-slate-900">Practice Revenue</h2>
-          <p className="mt-1 text-xs sm:text-sm text-slate-500">
-            Monthly breakdown by clinical service
-          </p>
-        </div>
-        <div className="mt-4 grid grid-cols-1 items-center gap-4 sm:gap-6 md:grid-cols-2">
-          <ChartPie />
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-            {revenueData.map((item) => (
-              <div
-                key={item.name}
-                className="rounded-xl border border-slate-100 p-4"
-              >
-                <div className="flex items-center gap-2">
-                  <span
-                    className="h-3 w-3 rounded-full"
-                    style={{ backgroundColor: item.color }}
-                  />
-                  <span className="text-xs font-medium text-slate-600">
-                    {item.name}
-                  </span>
+        <div key={timeRange} className="transition-opacity duration-300 ease-in-out">
+          <div>
+            <h2 className="text-base sm:text-xl font-bold text-slate-900">Practice Revenue</h2>
+            <p className="mt-1 text-xs sm:text-sm text-slate-500">
+              {subtitle}
+            </p>
+          </div>
+          <div className="mt-4 grid grid-cols-1 items-center gap-4 sm:gap-6 md:grid-cols-2">
+            <ChartPie data={activeMetrics} total={totalLabel} />
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+              {activeMetrics.map((item) => (
+                <div key={item.name} className="rounded-xl border border-slate-100 p-4">
+                  <div className="flex items-center gap-2">
+                    <span
+                      className="h-3 w-3 rounded-full"
+                      style={{ backgroundColor: item.color }}
+                    />
+                    <span className="text-xs font-medium text-slate-600">
+                      {item.name}
+                    </span>
+                  </div>
+                  <p className="mt-2 text-lg font-bold text-slate-900">
+                    {item.label}
+                  </p>
+                  <p className="text-xs text-slate-500">
+                    {item.percent}
+                  </p>
                 </div>
-                <p className="mt-2 text-lg font-bold text-slate-900">
-                  ${item.value.toLocaleString()}
-                </p>
-                <p className="text-xs text-slate-500">
-                  {((item.value / totalRevenue) * 100).toFixed(1)} percent
-                </p>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </section>

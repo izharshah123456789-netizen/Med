@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useEffect, useState } from "react";
 import LandingPage from "../components/ui/landing-page";
@@ -15,6 +15,10 @@ import PatientLayout from "./patient/layout";
 import PatientDashboardPage from "./patient/dashboard/page";
 import { Navbar } from "../components/ui/navbar";
 import SignInPage from "../components/ui/signin";
+import StaffLogin from "../components/auth/StaffLogin";
+import { ProtectedRoute } from "../components/auth/ProtectedRoute";
+import ReceptionDashboardPage from "./reception/dashboard/page";
+import OwnerDashboardPage from "./owner/dashboard/page";
 import MedoraChatWidget from "@/components/ui/medora-chat-widget";
 import {
   isDoctorDashboardPathname,
@@ -26,7 +30,10 @@ import {
   isDoctorAiBuilderPathname,
   isDoctorTreatmentsPathname,
   isSignInPathname,
+  isStaffLoginPathname,
   isPatientDashboardPathname,
+  isReceptionDashboardPathname,
+  isOwnerDashboardPathname,
 } from "../lib/routes";
 
 export default function Page() {
@@ -70,11 +77,13 @@ export default function Page() {
     };
   }, []);
 
-  if (isSignInPathname(pathname)) {
-    return <SignInPage />;
-  }
+  let pageContent: React.ReactNode;
 
-  if (
+  if (isSignInPathname(pathname)) {
+    pageContent = <SignInPage />;
+  } else if (isStaffLoginPathname(pathname)) {
+    pageContent = <StaffLogin />;
+  } else if (
     isDoctorDashboardPathname(pathname) ||
     isDoctorAnalyticsPathname(pathname) ||
     isDoctorDoctorsPathname(pathname) ||
@@ -84,52 +93,63 @@ export default function Page() {
     isDoctorAiBuilderPathname(pathname) ||
     isDoctorTreatmentsPathname(pathname)
   ) {
-    return (
-      <DoctorLayout>
-        {isDoctorAnalyticsPathname(pathname) ? (
-          <DoctorAnalyticsPage />
-        ) : isDoctorDoctorsPathname(pathname) ? (
-          <DoctorDoctorsPage />
-        ) : isDoctorPatientsPathname(pathname) ? (
-          <DoctorPatientsPage />
-        ) : isDoctorAppointmentsPathname(pathname) ? (
-          <DoctorAppointmentsPage />
-        ) : isDoctorWebsitePathname(pathname) ? (
-          <DoctorWebsitePage />
-        ) : isDoctorAiBuilderPathname(pathname) ? (
-          <DoctorAiBuilderPage />
-        ) : isDoctorTreatmentsPathname(pathname) ? (
-          <DoctorTreatmentsPage />
-        ) : (
-          <DoctorDashboardPage />
-        )}
-      </DoctorLayout>
+    pageContent = (
+      <ProtectedRoute allowedRoles={["doctor"]}>
+        <DoctorLayout>
+          {isDoctorAnalyticsPathname(pathname) ? (
+            <DoctorAnalyticsPage />
+          ) : isDoctorDoctorsPathname(pathname) ? (
+            <DoctorDoctorsPage />
+          ) : isDoctorPatientsPathname(pathname) ? (
+            <DoctorPatientsPage />
+          ) : isDoctorAppointmentsPathname(pathname) ? (
+            <DoctorAppointmentsPage />
+          ) : isDoctorWebsitePathname(pathname) ? (
+            <DoctorWebsitePage />
+          ) : isDoctorAiBuilderPathname(pathname) ? (
+            <DoctorAiBuilderPage />
+          ) : isDoctorTreatmentsPathname(pathname) ? (
+            <DoctorTreatmentsPage />
+          ) : (
+            <DoctorDashboardPage />
+          )}
+        </DoctorLayout>
+      </ProtectedRoute>
     );
-  }
+  } else if (isReceptionDashboardPathname(pathname)) {
+    pageContent = <ReceptionDashboardPage />;
+  } else if (isOwnerDashboardPathname(pathname)) {
+    pageContent = <OwnerDashboardPage />;
+  } else if (isPatientDashboardPathname(pathname)) {
+    pageContent = (
+      <ProtectedRoute allowedRoles={["patient"]}>
+        <PatientLayout>
+          <PatientDashboardPage />
+        </PatientLayout>
+      </ProtectedRoute>
+    );
+  } else {
+    pageContent = (
+      <div className="relative flex min-h-screen w-full flex-col bg-[#F2F9F5]">
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
+          <div className="absolute -top-32 -left-32 bg-[#226E4B]/5 blur-3xl rounded-full w-[500px] h-[500px]" />
+          <div className="absolute -bottom-40 -right-32 bg-[#226E4B]/5 blur-3xl rounded-full w-[460px] h-[460px]" />
+        </div>
 
-  if (isPatientDashboardPathname(pathname)) {
-    return (
-      <PatientLayout>
-        <PatientDashboardPage />
-      </PatientLayout>
+        <div className="relative z-10 flex w-full flex-col">
+          <Navbar />
+          <main className="w-full">
+            <LandingPage />
+          </main>
+        </div>
+      </div>
     );
   }
 
   return (
-    <div className="relative flex min-h-screen w-full flex-col bg-[#F2F9F5]">
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute -top-32 -left-32 bg-[#226E4B]/5 blur-3xl rounded-full w-[500px] h-[500px]" />
-        <div className="absolute -bottom-40 -right-32 bg-[#226E4B]/5 blur-3xl rounded-full w-[460px] h-[460px]" />
-      </div>
-
-      <div className="relative z-10 flex w-full flex-col">
-        <Navbar />
-        <main className="w-full">
-          <LandingPage />
-        </main>
-      </div>
-
+    <>
+      {pageContent}
       <MedoraChatWidget />
-    </div>
+    </>
   );
 }

@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { HOME_ROUTE, SIGN_IN_ROUTE } from "../../lib/routes";
+import { useSectionTheme } from "../../hooks/useSectionTheme";
 
 const navLinks = [
   { label: "FAQs", href: `${HOME_ROUTE}#faqs` },
@@ -13,55 +14,31 @@ const navLinks = [
   { label: "Pricing", href: `${HOME_ROUTE}#pricing` },
 ];
 
-const themeText = {
-  light: "text-slate-900",
-  tinted: "text-emerald-950",
-  dark: "text-white",
-};
-
-const themeBg = {
-  light: "bg-white/90 border-slate-200/80 backdrop-blur-md",
-  tinted: "bg-[#f0fdf4]/90 border-emerald-200/60 backdrop-blur-md",
-  dark: "bg-emerald-950/90 border-emerald-800/50 backdrop-blur-md",
-};
-
 export function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [navTheme, setNavTheme] = useState<'light' | 'tinted' | 'dark'>('light');
-
-  useEffect(() => {
-    const sections = document.querySelectorAll('section[data-theme], footer[data-theme]');
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const theme = entry.target.getAttribute('data-theme') as 'light' | 'tinted' | 'dark';
-            if (theme) setNavTheme(theme);
-          }
-        });
-      },
-      {
-        rootMargin: '-10% 0px -85% 0px',
-        threshold: 0,
-      }
-    );
-
-    sections.forEach((sec) => observer.observe(sec));
-
-    return () => observer.disconnect();
-  }, []);
+  const theme = useSectionTheme();
+  const isDark = theme === "dark";
 
   const closeMenu = () => setMenuOpen(false);
 
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 border-b transition-colors duration-300 ease-in-out px-4 sm:px-6 lg:px-8 py-3.5 ${themeBg[navTheme]}`}>
+    <header
+      className={cn(
+        "fixed top-0 left-0 right-0 z-50 border-b transition-colors duration-300 ease-in-out px-4 sm:px-6 lg:px-8 py-3.5",
+        isDark
+          ? "bg-[#113F2A]/95 backdrop-blur-md border-white/15"
+          : "bg-white/95 backdrop-blur-md border-[#E2E8F0]",
+      )}
+    >
       <nav id="main-navbar" className="w-full transition-all duration-300">
         <div className="relative max-w-7xl mx-auto px-4 sm:px-12 h-16 flex items-center justify-between w-full">
           <a
             href={HOME_ROUTE}
             id="nav-logo-text"
-            className={`brand-text inline-flex items-center gap-2.5 text-xl font-extrabold tracking-tight shrink-0 group ${themeText[navTheme]}`}
+            className={cn(
+              "brand-text inline-flex items-center gap-2.5 text-xl font-extrabold tracking-tight shrink-0 group",
+              isDark ? "text-white" : "text-[#113F2A]",
+            )}
           >
             <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-[#E2F0E8] border border-[#226E4B]/20 text-[#226E4B] transition-all duration-300 group-hover:bg-[#226E4B] group-hover:text-white group-hover:shadow-md group-hover:shadow-[#226E4B]/25">
               <svg
@@ -93,7 +70,10 @@ export function Navbar() {
               <a
                 key={link.label}
                 href={link.href}
-                className={`nav-link relative ${themeText[navTheme]} hover:text-[#226E4B] transition-colors duration-200 after:absolute after:-bottom-1 after:left-0 after:h-px after:w-0 after:bg-[#226E4B] after:transition-all after:duration-300 hover:after:w-full`}
+                className={cn(
+                  "nav-link relative transition-colors duration-200 after:absolute after:-bottom-1 after:left-0 after:h-px after:w-0 after:bg-[#226E4B] after:transition-all after:duration-300 hover:after:w-full",
+                  isDark ? "text-[#E2E8F0]" : "text-[#1A2E26]",
+                )}
               >
                 {link.label}
               </a>
@@ -110,11 +90,14 @@ export function Navbar() {
           <button
             id="mobileMenuButton"
             type="button"
-            onClick={() => setMenuOpen((open) => !open)}
+            onClick={() => setMenuOpen((prev) => !prev)}
             aria-expanded={menuOpen}
             aria-controls="mobileNavMenu"
             aria-label="Open navigation menu"
-            className={`inline-flex md:hidden items-center justify-center rounded-xl border border-[#226E4B]/20 bg-white/70 p-2.5 ${themeText[navTheme]} transition-colors duration-200 hover:bg-[#E2F0E8]`}
+            className={cn(
+              "inline-flex md:hidden items-center justify-center rounded-xl border border-[#226E4B]/20 bg-white/70 p-2.5 relative z-50 pointer-events-auto transition-colors duration-200 hover:bg-[#E2F0E8]",
+              isDark ? "text-white" : "text-[#113F2A]",
+            )}
           >
             {menuOpen ? (
               <X className="h-5 w-5" aria-hidden="true" />
@@ -126,8 +109,11 @@ export function Navbar() {
           <div
             id="mobileNavMenu"
             className={cn(
-              "md:hidden absolute left-0 right-0 top-full z-50 flex-col gap-1 border-t border-[#226E4B]/10 bg-white/95 px-4 py-4 shadow-xl shadow-[#226E4B]/10 backdrop-blur-md",
+              "md:hidden fixed inset-x-0 top-16 z-40 flex-col gap-1 border-t p-6 shadow-xl",
               menuOpen ? "flex" : "hidden",
+              isDark
+                ? "border-white/15 bg-[#113F2A] text-white shadow-[#226E4B]/10"
+                : "border-[#E2E8F0] bg-[#113F2A] text-white shadow-slate-900/5",
             )}
           >
             {navLinks.map((link) => (
@@ -135,7 +121,7 @@ export function Navbar() {
                 key={link.label}
                 href={link.href}
                 onClick={closeMenu}
-                className="nav-link rounded-lg px-3 py-3 text-sm font-semibold text-slate-700 transition-colors duration-200 hover:bg-[#F2F9F5] hover:text-[#226E4B]"
+                className="nav-link rounded-lg px-3 py-3 text-sm font-semibold text-white transition-colors duration-200 hover:bg-emerald-800/60 hover:text-white"
               >
                 {link.label}
               </a>

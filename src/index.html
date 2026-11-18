@@ -235,37 +235,54 @@
     transition: background-color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease !important;
   }
 
-  /* State 1: Applied over WHITE background sections (Uses Soft Mint Sage #EEF7F2) */
-  .medora-nav-header.nav-mint-theme {
-    background-color: rgba(242, 249, 245, 0.85) !important;
-    backdrop-filter: blur(20px) saturate(140%) !important;
-    -webkit-backdrop-filter: blur(20px) saturate(140%) !important;
+  /* Colored sections use a white navbar. */
+  .medora-nav-header.nav-dark-theme {
+    background-color: #ffffff !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    box-shadow: 0 10px 30px -18px rgba(15, 23, 42, 0.18) !important;
+  }
+
+  /* White sections use the screenshot's #EBF4F0 tint. */
+  .medora-nav-header.nav-light-theme {
+    background-color: #ebf4f0 !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
     border-bottom: 1px solid rgba(34, 110, 75, 0.12) !important;
-    box-shadow: 0 10px 30px -18px rgba(34, 110, 75, 0.35) !important;
+    box-shadow: 0 10px 30px -18px rgba(34, 110, 75, 0.2) !important;
   }
 
-  /* State 2: Applied over COLORED / TINTED background sections (Uses Pure White #FFFFFF) */
-  .medora-nav-header.nav-white-theme {
-    background-color: rgba(255, 255, 255, 0.88) !important;
-    backdrop-filter: blur(20px) saturate(140%) !important;
-    -webkit-backdrop-filter: blur(20px) saturate(140%) !important;
-    border-bottom: 1px solid rgba(226, 232, 240, 0.8) !important;
-    box-shadow: 0 10px 30px -18px rgba(15, 23, 42, 0.28) !important;
+  .medora-nav-header.nav-dark-theme #nav-logo-text,
+  .medora-nav-header.nav-light-theme #nav-logo-text,
+  .medora-nav-header.nav-dark-theme #mobileMenuButton,
+  .medora-nav-header.nav-light-theme #mobileMenuButton {
+    color: #113f2a !important;
   }
 
-  /* Link Styling & Active Indicator */
-  .medora-nav-header.nav-mint-theme .nav-link {
-    color: #334155 !important;
+  .medora-nav-header.nav-dark-theme .nav-link,
+  .medora-nav-header.nav-light-theme .nav-link {
+    color: #1e293b !important;
     font-weight: 600 !important;
     transition: color 0.25s ease !important;
     position: relative !important;
   }
 
-  .medora-nav-header.nav-white-theme .nav-link {
-    color: #475569 !important;
-    font-weight: 600 !important;
-    transition: color 0.25s ease !important;
-    position: relative !important;
+  .medora-nav-header.nav-dark-theme .nav-link:hover,
+  .medora-nav-header.nav-light-theme .nav-link:hover,
+  .medora-nav-header.nav-dark-theme .nav-link.active-nav,
+  .medora-nav-header.nav-light-theme .nav-link.active-nav {
+    color: #113f2a !important;
+  }
+
+  #mobileNavMenu {
+    background-color: #113f2a !important;
+    color: #ffffff !important;
+    border-color: rgba(6, 78, 59, 0.4) !important;
+  }
+
+  #mobileNavMenu .nav-link {
+    color: #ffffff !important;
   }
 
   /* Desktop Link Underline Micro Interaction */
@@ -965,7 +982,7 @@
 </head>
 
   <body class="bg-[#F2F9F5]">
-<header class="medora-nav-header nav-mint-theme transition-colors duration-200 ease-in-out">
+<header class="medora-nav-header nav-light-theme transition-colors duration-200 ease-in-out">
   <nav id="main-navbar" class="w-full transition-all duration-300">
     <div class="relative max-w-7xl mx-auto px-4 sm:px-12 h-16 flex items-center justify-between w-full">
       <a href="#hero" id="nav-logo-text" class="brand-text inline-flex items-center gap-2.5 text-xl font-extrabold tracking-tight text-[#226E4B] shrink-0 group">
@@ -1000,7 +1017,7 @@
   </nav>
 </header>
 
-  <section id="hero" class="flex w-full flex-col-reverse overflow-hidden bg-white text-slate-900 md:flex-row min-h-[80vh]" data-navbar-theme="mint">
+  <section id="hero" class="flex w-full flex-col-reverse overflow-hidden bg-white text-slate-900 md:flex-row min-h-[80vh]" data-section-theme="light" data-navbar-theme="mint">
     <div class="w-full md:w-1/2 lg:w-3/5 p-6 sm:p-8 md:p-10 lg:p-16 flex flex-col justify-between text-center md:text-left">
       <div>
         <div class="mb-10 flex items-center justify-center md:justify-start animate-hero-1">
@@ -1052,7 +1069,7 @@
     ></div>
   </section>
 
-<section id="medoraCoreFeatures" class="medora-core-features w-full bg-[#EBF4F0] py-20 relative overflow-hidden z-10 border-t border-[#226E4B]/10">
+<section id="medoraCoreFeatures" class="medora-core-features w-full bg-[#EBF4F0] py-20 relative overflow-hidden z-10 border-t border-[#226E4B]/10" data-section-theme="dark">
 
 <style>
     /* Stage Perspective & Centering */
@@ -1966,7 +1983,7 @@ section[id], [id] { scroll-margin-top: 80px; }
   </script>
 
 </section>
-  <section id="workflow" class="workflow-section" data-navbar-theme="mint">
+  <section id="workflow" class="workflow-section" data-section-theme="light" data-navbar-theme="mint">
       <div class="text-center w-full mx-auto mb-12">
         <span class="block text-xs font-semibold tracking-wider text-[#226E4B] uppercase mb-2">• Streamlined Clinical Flow</span>
         <h2 class="text-3xl sm:text-4xl md:text-5xl font-black text-slate-900 tracking-tight mb-3">MEDORA WORKFLOW</h2>
@@ -2070,7 +2087,7 @@ section[id], [id] { scroll-margin-top: 80px; }
     </section>
 
     <!-- �"��"��"��"��"��"��"��"��"��"��"��"� ABOUT MEDORA �"��"��"��"��"��"��"��"��"��"��"��"� -->
-    <section id="about" class="about-medora py-20 px-4 sm:px-6 lg:px-8 bg-[#E2EFE9] w-full overflow-hidden" data-navbar-theme="cream" data-section-type="colored">
+    <section id="about" class="about-medora py-20 px-4 sm:px-6 lg:px-8 bg-[#E2EFE9] w-full overflow-hidden" data-section-theme="dark" data-navbar-theme="cream" data-section-type="colored">
   <div class="max-w-7xl mx-auto">
     <div class="text-center space-y-4 max-w-3xl mx-auto mb-10">
       <span class="block text-xs font-semibold tracking-wider text-[#226E4B] uppercase mb-2">ABOUT MEDORA</span>
@@ -2171,7 +2188,7 @@ section[id], [id] { scroll-margin-top: 80px; }
 })();
 </script>
 
-    <section id="features" class="py-20 bg-white" data-navbar-theme="mint">
+    <section id="features" class="py-20 bg-white" data-section-theme="light" data-navbar-theme="mint">
       <div class="max-w-7xl mx-auto px-6">
         <!-- Section Header -->
         <div class="text-center mb-14">
@@ -2291,7 +2308,7 @@ section[id], [id] { scroll-margin-top: 80px; }
     <div id="medora-impact-section"></div>
     <script type="module" src="/mount-how-it-works.tsx"></script>
 
-    <section id="pricing" class="pricing-section py-24 px-6 bg-white" data-navbar-theme="mint">
+    <section id="pricing" class="pricing-section py-24 px-6 bg-white" data-section-theme="light" data-navbar-theme="mint">
       <div class="max-w-6xl mx-auto">
         <div class="text-center space-y-4 mb-12">
           <span
@@ -2858,6 +2875,8 @@ section[id], [id] { scroll-margin-top: 80px; }
     </script>
 
     <footer
+      id="footer"
+      data-section-theme="dark"
       data-navbar-theme="cream"
       class="bg-[#E2EFE9] text-[#0F172A] pt-16 pb-12 px-4 sm:px-6 lg:px-8 border-t border-[#226E4B]/20"
     >
@@ -3136,7 +3155,7 @@ section[id], [id] { scroll-margin-top: 80px; }
   (function() {
     const navHeader = document.querySelector('.medora-nav-header');
     const navLinks = document.querySelectorAll('.medora-nav-header .nav-link');
-    const getSections = function() { return Array.from(document.querySelectorAll('section[id], footer[data-navbar-theme]')); };
+    const getSections = function() { return Array.from(document.querySelectorAll('[data-section-theme]')); };
     const menuButton = document.getElementById('mobileMenuButton');
     const mobileMenu = document.getElementById('mobileNavMenu');
 
@@ -3166,23 +3185,24 @@ section[id], [id] { scroll-margin-top: 80px; }
     if (!navHeader || getSections().length === 0) return;
 
     function updateNavbar() {
-      const navRect = navHeader.getBoundingClientRect();
-      const sections = getSections();
-      // The navbar is sticky at the top of the viewport, so a section touches it
-      // the moment its top edge reaches the navbar's bottom edge. That contact
-      // line is where the theme flips - not before, not after.
-      const contactLine = navRect.bottom;
-      const activeSection = sections.find(function(section) {
-        const rect = section.getBoundingClientRect();
-        return rect.top <= contactLine && rect.bottom > contactLine;
-      });
+      const navHeight = navHeader.getBoundingClientRect().height;
+      const sampleY = Math.min(navHeight / 2, window.innerHeight - 10);
+      const previousPointerEvents = navHeader.style.pointerEvents;
+      navHeader.style.pointerEvents = 'none';
+      const elementAtNavbar = document.elementFromPoint(window.innerWidth / 2, sampleY);
+      navHeader.style.pointerEvents = previousPointerEvents;
+      let activeSection = elementAtNavbar && elementAtNavbar.closest('[data-section-theme]');
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 1) {
+        const sections = getSections();
+        activeSection = sections[sections.length - 1] || activeSection;
+      }
+      const theme = activeSection && activeSection.getAttribute('data-section-theme');
 
-      if (!activeSection) return;
-      const usesSage = activeSection.getAttribute('data-navbar-theme') === 'mint';
-      navHeader.classList.toggle('nav-mint-theme', usesSage);
-      navHeader.classList.toggle('nav-white-theme', !usesSage);
+      if (theme !== 'dark' && theme !== 'light') return;
+      navHeader.classList.toggle('nav-dark-theme', theme === 'dark');
+      navHeader.classList.toggle('nav-light-theme', theme === 'light');
       navLinks.forEach(function(link) {
-        link.classList.toggle('active-nav', link.getAttribute('href') === '#' + activeSection.id);
+        link.classList.toggle('active-nav', Boolean(activeSection.id) && link.getAttribute('href') === '#' + activeSection.id);
       });
     }
 
@@ -3200,38 +3220,55 @@ section[id], [id] { scroll-margin-top: 80px; }
 
     if (!grid || cards.length === 0) return;
 
-    if (window.matchMedia('(max-width: 767px)').matches) {
-      let expandedCard = null;
+    const mobileCards = window.matchMedia('(max-width: 767px)');
+    let expandedCard = null;
 
-      cards.forEach(card => {
-        card.setAttribute('role', 'button');
-        card.setAttribute('tabindex', '0');
-        card.setAttribute('aria-expanded', 'false');
-      });
-
-      function setExpanded(card) {
-        expandedCard = expandedCard === card ? null : card;
-        cards.forEach(otherCard => {
-          const isExpanded = otherCard === expandedCard;
-          otherCard.classList.toggle('is-expanded', isExpanded);
-          otherCard.setAttribute('aria-expanded', String(isExpanded));
-        });
-      }
-
-      grid.addEventListener('click', event => {
-        const card = event.target.closest('.feature-spotlight-card');
-        if (!card || !grid.contains(card)) return;
-        setExpanded(card);
-      });
-
-      cards.forEach(card => {
-        card.addEventListener('keydown', event => {
-          if (event.key !== 'Enter' && event.key !== ' ') return;
-          event.preventDefault();
-          setExpanded(card);
-        });
+    function setExpanded(card) {
+      expandedCard = expandedCard === card ? null : card;
+      cards.forEach(otherCard => {
+        const isExpanded = otherCard === expandedCard;
+        otherCard.classList.toggle('is-expanded', isExpanded);
+        otherCard.setAttribute('aria-expanded', String(isExpanded));
       });
     }
+
+    function syncCardAccessibility() {
+      expandedCard = null;
+      cards.forEach(card => {
+        card.classList.remove('is-expanded');
+        if (mobileCards.matches) {
+          card.setAttribute('role', 'button');
+          card.setAttribute('tabindex', '0');
+          card.setAttribute('aria-expanded', 'false');
+        } else {
+          card.removeAttribute('role');
+          card.removeAttribute('tabindex');
+          card.removeAttribute('aria-expanded');
+        }
+      });
+    }
+
+    syncCardAccessibility();
+    if (typeof mobileCards.addEventListener === 'function') {
+      mobileCards.addEventListener('change', syncCardAccessibility);
+    } else {
+      mobileCards.addListener(syncCardAccessibility);
+    }
+
+    grid.addEventListener('click', event => {
+      if (!mobileCards.matches) return;
+      const card = event.target.closest('.feature-spotlight-card');
+      if (!card || !grid.contains(card)) return;
+      setExpanded(card);
+    });
+
+    cards.forEach(card => {
+      card.addEventListener('keydown', event => {
+        if (!mobileCards.matches || (event.key !== 'Enter' && event.key !== ' ')) return;
+        event.preventDefault();
+        setExpanded(card);
+      });
+    });
 
     const PROXIMITY = 180;
     let touchActive = false;
@@ -3310,6 +3347,7 @@ section[id], [id] { scroll-margin-top: 80px; }
     });
   })();
   </script>
-
+    <div id="medora-chat-widget-root"></div>
+    <script type="module" src="/mountMedoraChatWidget.tsx"></script>
 </body>
 </html>

@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
-import MedoraChatWidget from "@/components/ui/medora-chat-widget";
+import { useAuth } from "../../context/AuthContext";
 
 export default function DoctorLayout({
   children,
@@ -14,8 +14,10 @@ export default function DoctorLayout({
     typeof window !== "undefined" ? window.location.pathname : "/doctor/dashboard",
   );
   const [navOpen, setNavOpen] = useState(false);
+  const [signOutError, setSignOutError] = useState("");
 
   const [activeTab, setActiveTab] = useState<string>("dashboard");
+  const { logout } = useAuth();
 
   useEffect(() => {
     setMounted(true);
@@ -60,6 +62,17 @@ export default function DoctorLayout({
     window.dispatchEvent(new PopStateEvent("popstate"));
     setPathname(route);
     setNavOpen(false);
+  };
+
+  const signOut = async () => {
+    try {
+      await logout();
+      window.location.href = "/signin";
+    } catch (error) {
+      setSignOutError(
+        error instanceof Error ? error.message : "Sign out failed.",
+      );
+    }
   };
 
   const overviewItems = [
@@ -139,11 +152,7 @@ export default function DoctorLayout({
           </div>
           <button
             type="button"
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              window.location.href = "/signin";
-            }}
+            onClick={signOut}
             className="flex items-center gap-1.5 text-xs font-semibold text-red-600 hover:text-red-700 whitespace-nowrap"
             aria-label="Sign out"
           >
@@ -219,11 +228,7 @@ export default function DoctorLayout({
           <div className="pt-4 border-t border-slate-100">
             <button
               type="button"
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                window.location.href = "/signin";
-              }}
+              onClick={signOut}
               className="flex items-center gap-1.5 w-full justify-center text-xs font-semibold text-red-600 hover:text-red-700 whitespace-nowrap py-2"
               aria-label="Sign out"
             >
@@ -249,11 +254,13 @@ export default function DoctorLayout({
 
       {/* MAIN CONTENT VIEWPORT: Full remaining height and width */}
       <main className="flex-1 overflow-y-auto min-h-screen pt-16 lg:pt-0 lg:mt-0 pb-16">
+        {signOutError ? (
+          <p role="alert" className="m-4 rounded-lg bg-red-50 p-3 text-sm text-red-700">
+            {signOutError}
+          </p>
+        ) : null}
         {children}
       </main>
-
-      {/* CHAT WIDGET: Rendered outside all anchors and forms to prevent /signin redirects */}
-      <MedoraChatWidget />
     </div>
   );
 }

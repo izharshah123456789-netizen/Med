@@ -7,10 +7,23 @@ import PatientAppointments from "../../components/patient/PatientAppointments";
 import PatientPrescriptions from "../../components/patient/PatientPrescriptions";
 import PatientRecords from "../../components/patient/PatientRecords";
 import PatientBilling from "../../components/patient/PatientBilling";
+import { useAuth } from "../../context/AuthContext";
 
 export default function PatientLayout({ children }: { children?: React.ReactNode }) {
   const [navOpen, setNavOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("dashboard");
+  const [signOutError, setSignOutError] = useState("");
+  const { logout } = useAuth();
+  const signOut = async () => {
+    try {
+      await logout();
+      window.location.href = "/signin";
+    } catch (error) {
+      setSignOutError(
+        error instanceof Error ? error.message : "Sign out failed.",
+      );
+    }
+  };
   const navItems = [
     { label: "Dashboard", tab: "dashboard" },
     { label: "Appointments", tab: "appointments" },
@@ -65,7 +78,7 @@ export default function PatientLayout({ children }: { children?: React.ReactNode
             <p className="text-xs font-bold text-slate-900">Sarah Jenkins</p>
             <p className="text-[10px] text-slate-400 font-medium">Patient</p>
           </div>
-          <button type="button" onClick={() => (window.location.href = "/signin")} className="text-xs font-bold text-red-500 hover:underline flex items-center gap-1">
+          <button type="button" onClick={signOut} className="text-xs font-bold text-red-500 hover:underline flex items-center gap-1">
             <LogOut className="h-3.5 w-3.5" /> Sign Out
           </button>
         </div>
@@ -80,7 +93,14 @@ export default function PatientLayout({ children }: { children?: React.ReactNode
         </div>
         <div className="w-7" />
       </header>
-      <main className="flex-1 overflow-y-auto min-h-screen pt-16 lg:pt-0 pb-16">{renderContent()}</main>
+      <main className="flex-1 overflow-y-auto min-h-screen pt-16 lg:pt-0 pb-16">
+        {signOutError ? (
+          <p role="alert" className="m-4 rounded-lg bg-red-50 p-3 text-sm text-red-700">
+            {signOutError}
+          </p>
+        ) : null}
+        {renderContent()}
+      </main>
     </div>
   );
 }

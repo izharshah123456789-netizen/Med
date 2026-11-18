@@ -1,4 +1,4 @@
-import { defineConfig, loadEnv } from 'vite'
+﻿import { defineConfig, loadEnv } from 'vite'
 import react from '@vitejs/plugin-react'
 import { createOpenAI } from '@ai-sdk/openai'
 import { convertToModelMessages, streamText } from 'ai'
@@ -10,27 +10,33 @@ import path from 'path'
 
 const SIGN_IN_ROUTE = '/signin'
 const SIGN_IN_DOCUMENT = '/signin.html'
+const STAFF_LOGIN_ROUTE = '/staff-login'
+const STAFF_LOGIN_DOCUMENT = '/staff-login.html'
 const DOCTOR_DASHBOARD_ROUTE = '/doctor/dashboard'
 const DOCTOR_DASHBOARD_DOCUMENT = '/doctor-dashboard.html'
 const PATIENT_DASHBOARD_ROUTE = '/patient/dashboard'
 const PATIENT_DASHBOARD_DOCUMENT = '/patient-dashboard.html'
+const RECEPTION_DASHBOARD_ROUTE = '/reception/dashboard'
+const RECEPTION_DASHBOARD_DOCUMENT = '/reception-dashboard.html'
+const OWNER_DASHBOARD_ROUTE = '/owner/dashboard'
+const OWNER_DASHBOARD_DOCUMENT = '/owner-dashboard.html'
 
 function medoraRoutes() {
   const rewriteMedoraRoutes = (req, _res, next) => {
     const url = req.url || ''
     const [pathname] = url.split('?')
-    if (pathname === SIGN_IN_ROUTE || pathname === `${SIGN_IN_ROUTE}/`) {
+    if (pathname === SIGN_IN_ROUTE || pathname === SIGN_IN_ROUTE + '/') {
       req.url = url.replace(pathname, SIGN_IN_DOCUMENT)
-    } else if (
-      pathname === DOCTOR_DASHBOARD_ROUTE ||
-      pathname === `${DOCTOR_DASHBOARD_ROUTE}/`
-    ) {
+    } else if (pathname === STAFF_LOGIN_ROUTE || pathname === STAFF_LOGIN_ROUTE + '/') {
+      req.url = url.replace(pathname, STAFF_LOGIN_DOCUMENT)
+    } else if (pathname === DOCTOR_DASHBOARD_ROUTE || pathname === DOCTOR_DASHBOARD_ROUTE + '/') {
       req.url = url.replace(pathname, DOCTOR_DASHBOARD_DOCUMENT)
-    } else if (
-      pathname === PATIENT_DASHBOARD_ROUTE ||
-      pathname === `${PATIENT_DASHBOARD_ROUTE}/`
-    ) {
+    } else if (pathname === PATIENT_DASHBOARD_ROUTE || pathname === PATIENT_DASHBOARD_ROUTE + '/') {
       req.url = url.replace(pathname, PATIENT_DASHBOARD_DOCUMENT)
+    } else if (pathname === RECEPTION_DASHBOARD_ROUTE || pathname === RECEPTION_DASHBOARD_ROUTE + '/') {
+      req.url = url.replace(pathname, RECEPTION_DASHBOARD_DOCUMENT)
+    } else if (pathname === OWNER_DASHBOARD_ROUTE || pathname === OWNER_DASHBOARD_ROUTE + '/') {
+      req.url = url.replace(pathname, OWNER_DASHBOARD_DOCUMENT)
     }
     next()
   }
@@ -47,8 +53,11 @@ function medoraRoutes() {
       const outDir = resolve(__dirname, 'dist')
       const routes = [
         { document: 'signin.html', directory: 'signin' },
+        { document: 'staff-login.html', directory: 'staff-login' },
         { document: 'doctor-dashboard.html', directory: 'doctor/dashboard' },
         { document: 'patient-dashboard.html', directory: 'patient/dashboard' },
+        { document: 'reception-dashboard.html', directory: 'reception/dashboard' },
+        { document: 'owner-dashboard.html', directory: 'owner/dashboard' },
       ]
       routes.forEach(({ document, directory }) => {
         const documentPath = resolve(outDir, document)
@@ -186,12 +195,18 @@ export default defineConfig(({ mode }) => {
         input: {
           main: './src/index.html',
           signin: './src/signin.html',
+          staffLogin: './src/staff-login.html',
           mountHowItWorks: './src/mount-how-it-works.tsx',
           mountFeatureSections: './src/mount-feature-sections.tsx',
           mountSignIn: './src/mount-signin.tsx',
+          mountStaffLogin: './src/mount-staff-login.tsx',
           doctorDashboard: './src/doctor-dashboard.html',
           patientDashboard: './src/patient-dashboard.html',
+          receptionDashboard: './src/reception-dashboard.html',
+          ownerDashboard: './src/owner-dashboard.html',
           mountDashboard: './src/mount-dashboard.tsx',
+          mountReceptionDashboard: './src/mount-reception-dashboard.tsx',
+          mountOwnerDashboard: './src/mount-owner-dashboard.tsx',
         },
       },
     },

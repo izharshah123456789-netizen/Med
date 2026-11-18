@@ -2,38 +2,49 @@
 
 import { useEffect, useMemo, useState } from "react";
 
-const patients = [
-  {
-    id: "MED 1042",
-    name: "Zainab Bibi",
-    ageGender: "34 years / Female",
-    contact: "+92 300 1234567",
-    lastVisit: "October 21, 2026",
-    diagnosis: "Migraine",
-    status: "Active",
-    record: "EHR",
-  },
-  {
-    id: "MED 1043",
-    name: "Muhammad Usman",
-    ageGender: "45 years / Male",
-    contact: "+92 301 9876543",
-    lastVisit: "October 19, 2026",
-    diagnosis: "Hypertension",
-    status: "Active",
-    record: "EHR",
-  },
-];
-
 const summaries = [
   { label: "Registered Patients", value: "320" },
   { label: "Appointments Today", value: "14" },
   { label: "WhatsApp Reminders", value: "210" },
 ];
 
+const GENDERS = ["Female", "Male", "Other"];
+const DIAGNOSIS_TAGS = ["Migraine", "Hypertension", "Diabetes"];
+
 export default function DoctorPatientsPage() {
   const [mounted, setMounted] = useState(false);
   const [search, setSearch] = useState("");
+  const [isAddPatientOpen, setIsAddPatientOpen] = useState(false);
+  const [newPatient, setNewPatient] = useState({
+    fullName: "",
+    age: "",
+    gender: "Female",
+    contact: "",
+    diagnosis: "",
+  });
+  const [patients, setPatients] = useState([
+    {
+      id: "MED 1042",
+      name: "Zainab Bibi",
+      ageGender: "34 years / Female",
+      contact: "+92 300 1234567",
+      lastVisit: "October 21, 2026",
+      diagnosis: "Migraine",
+      status: "Active",
+      record: "EHR",
+    },
+    {
+      id: "MED 1043",
+      name: "Muhammad Usman",
+      ageGender: "45 years / Male",
+      contact: "+92 301 9876543",
+      lastVisit: "October 19, 2026",
+      diagnosis: "Hypertension",
+      status: "Active",
+      record: "EHR",
+    },
+  ]);
+  const [registeredCount, setRegisteredCount] = useState(320);
 
   const filteredPatients = useMemo(() => {
     const query = search.trim().toLowerCase();
@@ -51,11 +62,39 @@ export default function DoctorPatientsPage() {
         patient.record,
       ].some((value) => value.toLowerCase().includes(query)),
     );
-  }, [search]);
+  }, [search, patients]);
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  const handleCreatePatient = (event) => {
+    event.preventDefault();
+    const lastNumber = patients.reduce((max, patient) => {
+      const number = Number(patient.id.replace("MED ", ""));
+      return number > max ? number : max;
+    }, 0);
+    const nextId = `MED ${lastNumber + 1}`;
+    const today = new Date().toLocaleDateString("en-US", {
+      month: "long",
+      day: "numeric",
+      year: "numeric",
+    });
+    const record = {
+      id: nextId,
+      name: newPatient.fullName,
+      ageGender: `${newPatient.age} years / ${newPatient.gender}`,
+      contact: newPatient.contact,
+      lastVisit: today,
+      diagnosis: newPatient.diagnosis,
+      status: "Active",
+      record: "EHR",
+    };
+    setPatients([...patients, record]);
+    setRegisteredCount(registeredCount + 1);
+    setNewPatient({ fullName: "", age: "", gender: "Female", contact: "", diagnosis: "" });
+    setIsAddPatientOpen(false);
+  };
 
   if (!mounted) {
     return (
@@ -78,7 +117,8 @@ export default function DoctorPatientsPage() {
         </div>
         <button
           type="button"
-          className="rounded-xl bg-[#226E4B] px-4 py-2 text-xs font-bold text-white shadow-sm transition-colors hover:bg-[#1b583c]"
+          onClick={() => setIsAddPatientOpen(true)}
+          className="bg-[#113F2A] hover:bg-[#1b5238] text-white px-4 py-2 rounded-lg font-medium cursor-pointer transition-all"
         >
           + New Patient File
         </button>
@@ -97,7 +137,7 @@ export default function DoctorPatientsPage() {
               {summary.label}
             </p>
             <p className="mt-1 text-2xl font-bold text-slate-900">
-              {summary.value}
+              {summary.label === "Registered Patients" ? registeredCount : summary.value}
             </p>
           </div>
         ))}
@@ -178,6 +218,90 @@ export default function DoctorPatientsPage() {
           </table>
         </div>
       </section>
+
+      {isAddPatientOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+          <div className="bg-white text-slate-900 max-w-md w-full rounded-2xl p-6 shadow-2xl relative border border-emerald-800/20">
+            <h2 className="text-lg font-bold text-slate-900">Create New Patient File</h2>
+            <p className="mt-1 text-xs text-slate-500">Register new electronic health record</p>
+            <form onSubmit={handleCreatePatient} className="mt-4 space-y-4">
+              <div>
+                <label className="block text-xs font-medium text-slate-600 mb-1">Full Name</label>
+                <input
+                  type="text"
+                  value={newPatient.fullName}
+                  onChange={(event) => setNewPatient({ ...newPatient, fullName: event.target.value })}
+                  placeholder="Enter full name"
+                  className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none focus:border-[#226E4B] focus:ring-2 focus:ring-[#226E4B]/15"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-slate-600 mb-1">Age Years</label>
+                <input
+                  type="number"
+                  value={newPatient.age}
+                  onChange={(event) => setNewPatient({ ...newPatient, age: event.target.value })}
+                  placeholder="Age"
+                  className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none focus:border-[#226E4B] focus:ring-2 focus:ring-[#226E4B]/15"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-slate-600 mb-1">Gender</label>
+                <select
+                  value={newPatient.gender}
+                  onChange={(event) => setNewPatient({ ...newPatient, gender: event.target.value })}
+                  className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none focus:border-[#226E4B] focus:ring-2 focus:ring-[#226E4B]/15"
+                >
+                  {GENDERS.map((gender) => (
+                    <option key={gender} value={gender}>
+                      {gender}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-slate-600 mb-1">Mobile Contact Number</label>
+                <input
+                  type="tel"
+                  value={newPatient.contact}
+                  onChange={(event) => setNewPatient({ ...newPatient, contact: event.target.value })}
+                  placeholder="Enter contact number"
+                  className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none focus:border-[#226E4B] focus:ring-2 focus:ring-[#226E4B]/15"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-slate-600 mb-1">Initial Diagnosis Tag</label>
+                <select
+                  value={newPatient.diagnosis}
+                  onChange={(event) => setNewPatient({ ...newPatient, diagnosis: event.target.value })}
+                  className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none focus:border-[#226E4B] focus:ring-2 focus:ring-[#226E4B]/15"
+                >
+                  {DIAGNOSIS_TAGS.map((tag) => (
+                    <option key={tag} value={tag}>
+                      {tag}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="flex justify-end gap-3 pt-4 border-t border-slate-200">
+                <button
+                  type="button"
+                  onClick={() => setIsAddPatientOpen(false)}
+                  className="rounded-lg px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 transition-all"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="bg-[#113F2A] hover:bg-[#1b5238] text-white px-4 py-2 rounded-lg font-medium transition-all"
+                >
+                  Create File
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

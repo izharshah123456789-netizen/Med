@@ -1,8 +1,14 @@
-import React from "react";
-import { createRoot } from "react-dom/client";
-import Page from "./app/page";
+import React from 'react';
+import { createRoot } from 'react-dom/client';
+import Page from './app/page';
+import { AuthProvider } from './context/AuthContext';
 
-const container = document.getElementById("medora-dashboard-root");
+const container = document.getElementById('medora-dashboard-root');
 if (container) {
-  createRoot(container).render(<Page />);
+  const root = createRoot(container);
+  root.render(
+    <AuthProvider>
+      <Page />
+    </AuthProvider>
+  );
 }

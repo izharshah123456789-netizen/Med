@@ -12,8 +12,11 @@ import {
   User,
   type LucideIcon,
 } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn } from "../../lib/utils";
 import { HOME_ROUTE } from "../../lib/routes";
+import { useAuth, type UserMetadata } from "../../context/AuthContext";
+import { DOCTOR_OPTIONS } from "../../lib/staff-attendance";
+import { isDevelopmentDemo } from "../../lib/supabase";
 
 type Role = "patient" | "doctor";
 
@@ -32,8 +35,8 @@ const roleFields: Record<Role, RoleFields> = {
     icon: User,
   },
   doctor: {
-    identifierLabel: "Provider Email / NPI ID",
-    identifierPlaceholder: "doctor@medora.com or NPI ID",
+    identifierLabel: "Provider Email",
+    identifierPlaceholder: "doctor@medora.com",
     submitLabel: "Sign In as Doctor",
     icon: Stethoscope,
   },
@@ -80,8 +83,10 @@ export function SignInPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(true);
   const [message, setMessage] = useState("");
+  const [authError, setAuthError] = useState("");
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
+  const { loginWithPassword, authError: sessionError } = useAuth();
 
   const fields = roleFields[role];
   const IdentifierIcon = fields.icon;
@@ -89,6 +94,7 @@ export function SignInPage() {
   const selectRole = (nextRole: Role) => {
     setRole(nextRole);
     setMessage("");
+    setAuthError("");
     if (nextRole === "patient") {
       setIdentifier("patient@medora.com");
       setPassword("password123");
@@ -98,16 +104,40 @@ export function SignInPage() {
     }
   };
 
-  const handleSignIn = (e: React.FormEvent) => {
+  const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    if (typeof window !== "undefined") {
-      localStorage.setItem("isLoggedIn", "true");
-      localStorage.setItem("userRole", role);
-      const target = role === "patient" ? "/patient/dashboard" : "/doctor/dashboard";
-      window.history.pushState({}, "", target);
-      window.dispatchEvent(new PopStateEvent("popstate"));
+    const doctorName =
+      role === "doctor"
+        ? DOCTOR_OPTIONS.find((name) =>
+            identifier.toLowerCase().includes(name.split(" ")[1].toLowerCase()),
+          ) || DOCTOR_OPTIONS[0]
+        : undefined;
+    setAuthError("");
+    let user: UserMetadata;
+    try {
+      user = await loginWithPassword(
+        identifier.trim(),
+        password,
+        role,
+        doctorName,
+      );
+    } catch (signInError) {
+      setAuthError(
+        signInError instanceof Error
+          ? signInError.message
+          : "Sign in failed. Please try again.",
+      );
+      return;
     }
+    if (user.role !== role) {
+      setAuthError("This account cannot sign in to the selected portal.");
+      return;
+    }
+    const target =
+      user.role === "patient" ? "/patient/dashboard" : "/doctor/dashboard";
+    window.history.pushState({}, "", target);
+    window.dispatchEvent(new PopStateEvent("popstate"));
   };
 
   return (
@@ -196,11 +226,13 @@ export function SignInPage() {
                   className={cn(inputShell, "pl-11")}
                 />
               </div>
-               {role === "doctor" && (
-                 <p className="mt-2 text-xs text-slate-500">
-                   Demo access accepts any valid provider email and a non empty password. Demo credentials: doctor@medora.com / password123
-                 </p>
-               )}
+              {role === "doctor" ? (
+                <p className="mt-2 text-xs text-slate-500">
+                  {isDevelopmentDemo
+                    ? "Development demo accepts any provider email and a non empty password."
+                    : "Use your registered provider account."}
+                </p>
+              ) : null}
             </div>
 
             <div>
@@ -295,6 +327,14 @@ export function SignInPage() {
               {message}
             </p>
           ) : null}
+          {authError || sessionError ? (
+            <p
+              role="alert"
+              className="mt-5 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700"
+            >
+              {authError || sessionError}
+            </p>
+          ) : null}
 
           <div className="relative mt-6 mb-3 flex items-center justify-center">
             <span
@@ -313,6 +353,16 @@ export function SignInPage() {
             <GoogleMark />
             <span>Continue with Google</span>
           </button>
+
+          <p className="mt-6 text-center text-sm text-slate-500">
+            Staff member?{" "}
+            <a
+              href="/staff-login"
+              className="font-semibold text-[#226E4B] hover:text-[#184F36] transition-colors duration-200"
+            >
+              Sign in with OTP
+            </a>
+          </p>
 
           <p className="mt-8 text-center text-sm text-slate-500">
             New to Medora?{" "}

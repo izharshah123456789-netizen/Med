@@ -1,9 +1,14 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { useAuth } from "../../../context/AuthContext";
+import { DOCTOR_OPTIONS } from "../../../lib/staff-attendance";
+import StaffAttendance from "../../../components/doctor/StaffAttendance";
 
 export default function DoctorDashboardPage() {
   const [mounted, setMounted] = useState(false);
+  const { user } = useAuth();
+  const doctorName = user?.doctorName || DOCTOR_OPTIONS[0];
 
   useEffect(() => {
     setMounted(true);
@@ -32,7 +37,7 @@ export default function DoctorDashboardPage() {
             Practice Dashboard
           </h1>
           <p className="text-xs sm:text-sm font-medium text-slate-500">
-            Welcome back, Dr. Syed Izhar Hussain
+            Welcome back, {doctorName}
           </p>
         </div>
         <div className="bg-emerald-50 text-[#226E4B] px-3.5 py-1.5 rounded-xl text-xs font-bold border border-emerald-200/60 shadow-sm">
@@ -148,6 +153,8 @@ export default function DoctorDashboardPage() {
         </button>
       </div>
       </div>
+
+      <StaffAttendance doctorName={doctorName} doctorId={user?.userId} />
     </div>
   );
 }

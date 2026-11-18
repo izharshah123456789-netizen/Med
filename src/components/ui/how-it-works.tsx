@@ -155,7 +155,7 @@ export function HowItWorks({ id = "impact" }: { id?: string }) {
   }, [measureConnector]);
 
   return (
-    <section id={id} className="medora-impact py-24 px-6 bg-[#EEF7F2]" data-navbar-theme="apricot">
+    <section id={id} className="medora-impact py-24 px-6 bg-[#EEF7F2]" data-section-theme="dark" data-navbar-theme="apricot">
       <div className="max-w-7xl mx-auto">
         <div className="text-center space-y-4 mb-16">
           <span className="inline-flex items-center px-3.5 py-1 rounded-full text-xs font-semibold tracking-wider text-[#226E4B] bg-[#E2F0E8] border border-[#226E4B]/15 uppercase mb-3">
